@@ -109,6 +109,11 @@
 
 ### ❌ Removed
 
+# April 29th, 2022- 4.30.2
+## stream-chat-android-client
+### 🐞 Fixed
+- Use user.id only in SocketFactory
+
 # March 9th, 2022 - 4.30.1
 <!-- UNRELEASED START -->
 ## stream-chat-android-client
