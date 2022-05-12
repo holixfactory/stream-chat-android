@@ -172,6 +172,7 @@ public class StreamOfflinePluginFactory(
             mutableGlobalState = globalState,
             repos = repos,
             syncManager = syncManager,
+            eventHandlerFilter = { event -> config.eventHandlerFilter(event, user) }
         ).also { eventHandler ->
             EventHandlerProvider.eventHandler = eventHandler
             eventHandler.initialize(user, scope)

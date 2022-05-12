@@ -110,6 +110,7 @@ internal class EventHandlerImpl(
     private val mutableGlobalState: GlobalMutableState,
     private val repos: RepositoryFacade,
     private val syncManager: SyncManager,
+    private val eventHandlerFilter: (ChatEvent) -> Boolean
 ) {
 
     private val logger = StreamLog.getLogger(TAG)
@@ -562,11 +563,15 @@ internal class EventHandlerImpl(
     }
 
     private suspend fun handleEventsInternal(events: List<ChatEvent>, isFromSync: Boolean) {
-        events.forEach { chatEvent ->
-            logger.d { "[handleEventsInternal] chatEvent: $chatEvent" }
+        val (filteredEvent, droppedEvent) = events.partition { event -> eventHandlerFilter(event) }
+        filteredEvent.forEach { chatEvent ->
+            logger.d { "[handleEventsInternal] filtered chatEvent: $chatEvent" }
+        }
+        droppedEvent.forEach { chatEvent ->
+            logger.d { "[handleEventsInternal] dropped chatEvent: $chatEvent" }
         }
 
-        val sortedEvents = events.sortedBy { it.createdAt }
+        val sortedEvents = filteredEvent.sortedBy { it.createdAt }
         updateOfflineStorageFromEvents(sortedEvents, isFromSync)
 
         // step 3 - forward the events to the active channels
@@ -608,7 +613,7 @@ internal class EventHandlerImpl(
         // only afterwards forward to the queryRepo since it borrows some data from the channel
         // queryRepo mainly monitors for the notification added to channel event
         logic.getActiveQueryChannelsLogic().forEach { queryChannelsLogic ->
-            queryChannelsLogic.handleEvents(events)
+            queryChannelsLogic.handleEvents(filteredEvent)
         }
     }
 

@@ -16,6 +16,8 @@
 
 package io.getstream.chat.android.offline.plugin.configuration
 
+import io.getstream.chat.android.offline.event.handler.DefaultEventHandlerFilter
+import io.getstream.chat.android.offline.event.handler.EventHandlerFilter
 import io.getstream.chat.android.offline.model.message.attachments.UploadAttachmentsNetworkType
 
 /**
@@ -31,4 +33,5 @@ public data class Config(
     public val userPresence: Boolean = true,
     public val persistenceEnabled: Boolean = true,
     public val uploadAttachmentsNetworkType: UploadAttachmentsNetworkType = UploadAttachmentsNetworkType.NOT_ROAMING,
+    public val eventHandlerFilter: EventHandlerFilter = DefaultEventHandlerFilter(),
 )

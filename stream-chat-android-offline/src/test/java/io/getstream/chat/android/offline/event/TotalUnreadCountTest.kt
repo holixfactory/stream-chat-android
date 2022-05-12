@@ -119,7 +119,8 @@ internal class TotalUnreadCountTest {
                 state = mock(),
                 mutableGlobalState = globalMutableState,
                 repos = repos,
-                syncManager = mock()
+                syncManager = mock(),
+                eventHandlerFilter = mock()
             )
 
         fun givenMockedRepositories(): Fixture {

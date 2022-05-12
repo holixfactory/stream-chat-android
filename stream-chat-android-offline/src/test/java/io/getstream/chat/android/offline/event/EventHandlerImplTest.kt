@@ -68,6 +68,7 @@ internal class EventHandlerImplTest {
         mutableGlobalState = globalState,
         repos = repositoryFacade,
         syncManager = syncManager,
+        eventHandlerFilter = { true }
     )
 
     @BeforeEach
