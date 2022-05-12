@@ -3,7 +3,7 @@ import io.getstream.chat.android.Dependencies
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-apply from: "${rootDir}/scripts/android.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {

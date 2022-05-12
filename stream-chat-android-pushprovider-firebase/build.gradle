@@ -1,19 +1,18 @@
 import io.getstream.chat.android.Dependencies
-import io.getstream.chat.android.Configuration
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "de.mannodermaus.android-junit5"
 
-ext {
-    PUBLISH_GROUP_ID = Configuration.artifactGroup
-    PUBLISH_ARTIFACT_ID = 'stream-chat-android-pushprovider-firebase'
-    PUBLISH_VERSION = rootVersionName
-}
-
-apply from: "${rootDir}/scripts/publish-module.gradle"
-apply from: "${rootDir}/scripts/android.gradle"
+//ext {
+//    PUBLISH_GROUP_ID = Configuration.artifactGroup
+//    PUBLISH_ARTIFACT_ID = 'stream-chat-android-pushprovider-firebase'
+//    PUBLISH_VERSION = rootVersionName
+//}
+//
+//apply from: "${rootDir}/scripts/publish-module.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
 
 
 android {
