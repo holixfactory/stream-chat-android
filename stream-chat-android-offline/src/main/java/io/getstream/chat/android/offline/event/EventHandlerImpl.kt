@@ -69,7 +69,7 @@ import kotlinx.coroutines.launch
 
 internal class EventHandlerImpl(
     private val domainImpl: ChatDomainImpl,
-    private val client: ChatClient,
+    private val client: ChatClient
 ) {
     private var logger = ChatLogger.get("EventHandler")
     private var firstConnect = true
@@ -430,11 +430,14 @@ internal class EventHandlerImpl(
 
     @OptIn(ExperimentalStreamChatApi::class)
     internal suspend fun handleEventsInternal(events: List<ChatEvent>, isFromSync: Boolean) {
-        events.forEach { chatEvent ->
+        val filteredEvents = events.filter { event ->
+            domainImpl.eventHandlerFilter(event, domainImpl.user.value?.id ?: "")
+        }
+        filteredEvents.forEach { chatEvent ->
             logger.logD("Received event: $chatEvent")
         }
 
-        val sortedEvents = events.sortedBy { it.createdAt }
+        val sortedEvents = filteredEvents.sortedBy { it.createdAt }
         updateOfflineStorageFromEvents(sortedEvents, isFromSync)
 
         // step 3 - forward the events to the active channels
@@ -496,7 +499,7 @@ internal class EventHandlerImpl(
         // queryRepo mainly monitors for the notification added to channel event
         if (ToggleService.isEnabled(ToggleService.TOGGLE_KEY_OFFLINE)) {
             for (queryChannelsLogic in client.logic.getActiveQueryChannelsLogic()) {
-                queryChannelsLogic.handleEvents(events)
+                queryChannelsLogic.handleEvents(sortedEvents)
             }
         } else {
             for (queryChannelsController in domainImpl.getActiveQueries()) {

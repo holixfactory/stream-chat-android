@@ -25,6 +25,8 @@ import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.core.ExperimentalStreamChatApi
 import io.getstream.chat.android.core.internal.InternalStreamChatApi
 import io.getstream.chat.android.offline.channel.ChannelController
+import io.getstream.chat.android.offline.event.DefaultEventHandlerFilter
+import io.getstream.chat.android.offline.event.EventHandlerFilter
 import io.getstream.chat.android.offline.experimental.plugin.OfflinePlugin
 import io.getstream.chat.android.offline.message.attachment.UploadAttachmentsNetworkType
 import io.getstream.chat.android.offline.model.ConnectionState
@@ -97,6 +99,9 @@ public sealed interface ChatDomain {
 
     /** The retry policy for retrying failed requests */
     public val retryPolicy: RetryPolicy
+
+    /** The filter for handling events */
+    public val eventHandlerFilter: EventHandlerFilter
 
     /**
      * Updates about currently typing users in active channels. See [TypingEvent].
@@ -586,6 +591,7 @@ public sealed interface ChatDomain {
             UploadAttachmentsNetworkType.NOT_ROAMING
 
         private var retryPolicy: RetryPolicy = DefaultRetryPolicy()
+        private var eventHandlerFilter: EventHandlerFilter = DefaultEventHandlerFilter()
 
         @VisibleForTesting
         internal fun database(db: ChatDatabase): Builder {
@@ -648,6 +654,11 @@ public sealed interface ChatDomain {
             return this
         }
 
+        public fun eventHandlerFilter(eventHandlerFilter: EventHandlerFilter): Builder {
+            this.eventHandlerFilter = eventHandlerFilter
+            return this
+        }
+
         public fun build(): ChatDomain {
             instance?.run {
                 Log.e(
@@ -666,7 +677,8 @@ public sealed interface ChatDomain {
                 ?: OfflinePluginConfig(
                     backgroundSyncEnabled = backgroundSyncEnabled,
                     userPresence = userPresence,
-                    persistenceEnabled = storageEnabled
+                    persistenceEnabled = storageEnabled,
+                    eventHandlerFilter = eventHandlerFilter
                 )
                     .let(::OfflinePlugin)
         }

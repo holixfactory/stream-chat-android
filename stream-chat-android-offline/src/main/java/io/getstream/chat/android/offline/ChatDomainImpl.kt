@@ -40,6 +40,8 @@ import io.getstream.chat.android.core.ExperimentalStreamChatApi
 import io.getstream.chat.android.core.internal.coroutines.DispatcherProvider
 import io.getstream.chat.android.livedata.BuildConfig
 import io.getstream.chat.android.offline.channel.ChannelController
+import io.getstream.chat.android.offline.event.DefaultEventHandlerFilter
+import io.getstream.chat.android.offline.event.EventHandlerFilter
 import io.getstream.chat.android.offline.event.EventHandlerImpl
 import io.getstream.chat.android.offline.experimental.channel.state.toMutableState
 import io.getstream.chat.android.offline.experimental.channel.thread.state.toMutableState
@@ -51,7 +53,6 @@ import io.getstream.chat.android.offline.extensions.applyPagination
 import io.getstream.chat.android.offline.extensions.cancelMessage
 import io.getstream.chat.android.offline.extensions.createChannel
 import io.getstream.chat.android.offline.extensions.isPermanent
-import io.getstream.chat.android.offline.extensions.loadMessageById
 import io.getstream.chat.android.offline.extensions.loadOlderMessages
 import io.getstream.chat.android.offline.extensions.sendGiphy
 import io.getstream.chat.android.offline.extensions.shuffleGiphy
@@ -146,6 +147,7 @@ internal class ChatDomainImpl internal constructor(
     private val offlinePlugin: OfflinePlugin,
     internal val uploadAttachmentsNetworkType: UploadAttachmentsNetworkType = UploadAttachmentsNetworkType.NOT_ROAMING,
     override val retryPolicy: RetryPolicy = DefaultRetryPolicy(),
+    override val eventHandlerFilter: EventHandlerFilter = DefaultEventHandlerFilter()
 ) : ChatDomain {
     internal constructor(
         client: ChatClient,

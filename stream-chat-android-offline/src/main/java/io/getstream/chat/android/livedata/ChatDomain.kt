@@ -24,6 +24,7 @@ import io.getstream.chat.android.livedata.controller.QueryChannelsController
 import io.getstream.chat.android.livedata.controller.ThreadController
 import io.getstream.chat.android.livedata.utils.Event
 import io.getstream.chat.android.livedata.utils.RetryPolicy
+import io.getstream.chat.android.offline.event.EventHandlerFilter
 import io.getstream.chat.android.offline.message.attachment.UploadAttachmentsNetworkType
 import io.getstream.chat.android.offline.model.ConnectionState
 import io.getstream.chat.android.offline.ChatDomain as OfflineChatDomain
@@ -610,6 +611,10 @@ public sealed interface ChatDomain {
 
         public fun retryPolicy(retryPolicy: RetryPolicy): Builder = apply {
             offlineChatDomainBuilder.retryPolicy(retryPolicy)
+        }
+
+        public fun eventHandlerFilter(eventHandlerFilter: EventHandlerFilter): Builder = apply {
+            offlineChatDomainBuilder.eventHandlerFilter(eventHandlerFilter)
         }
 
         public fun build(): ChatDomain {
