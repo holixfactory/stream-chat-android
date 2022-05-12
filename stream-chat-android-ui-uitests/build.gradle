@@ -7,7 +7,7 @@ plugins {
     id 'shot'
 }
 
-apply from: "${rootDir}/scripts/android.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
 
 android {
     defaultConfig {
