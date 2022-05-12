@@ -7,13 +7,13 @@ plugins {
 }
 
 
-ext {
-    PUBLISH_GROUP_ID = Configuration.artifactGroup
-    PUBLISH_ARTIFACT_ID = 'stream-logger-file'
-    PUBLISH_VERSION = rootVersionName
-}
-
-apply from: "${rootDir}/scripts/publish-module.gradle"
+//ext {
+//    PUBLISH_GROUP_ID = Configuration.artifactGroup
+//    PUBLISH_ARTIFACT_ID = 'stream-logger-file'
+//    PUBLISH_VERSION = rootVersionName
+//}
+//
+//apply from: "${rootDir}/scripts/publish-module.gradle"
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8

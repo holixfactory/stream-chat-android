@@ -5,13 +5,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'de.mannodermaus.android-junit5'
 
-ext {
-    PUBLISH_GROUP_ID = Configuration.artifactGroup
-    PUBLISH_ARTIFACT_ID = 'stream-logger-android'
-    PUBLISH_VERSION = rootVersionName
-}
-
-apply from: "${rootDir}/scripts/publish-module.gradle"
+//ext {
+//    PUBLISH_GROUP_ID = Configuration.artifactGroup
+//    PUBLISH_ARTIFACT_ID = 'stream-logger-android'
+//    PUBLISH_VERSION = rootVersionName
+//}
+//
+//apply from: "${rootDir}/scripts/publish-module.gradle"
 apply from: "${rootDir}/scripts/android.gradle"
 
 android {

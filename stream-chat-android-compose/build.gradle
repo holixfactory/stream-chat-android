@@ -14,7 +14,7 @@ apply plugin: "de.mannodermaus.android-junit5"
 //
 //apply from: "${rootDir}/scripts/publish-module.gradle"
 apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
-apply from: "${rootDir}/stream-chat-android/scripts/detekt-compose.gradle"
+// apply from: "${rootDir}/stream-chat-android/scripts/detekt-compose.gradle"
 
 android {
     defaultConfig {
