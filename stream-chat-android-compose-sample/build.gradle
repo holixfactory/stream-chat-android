@@ -6,8 +6,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-apply from: "${rootDir}/scripts/android.gradle"
-apply from: "${rootDir}/scripts/detekt-compose.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/detekt-compose.gradle"
 
 android {
     defaultConfig {

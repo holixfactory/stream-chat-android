@@ -8,7 +8,7 @@ import io.getstream.chat.android.command.version.plugin.VersionPrintPlugin
 import io.getstream.chat.android.command.changelog.plugin.ChangelogAddModelSectionPlugin
 
 apply plugin: "com.github.ben-manes.versions"
-apply plugin: 'io.github.gradle-nexus.publish-plugin'
+// apply plugin: 'io.github.gradle-nexus.publish-plugin'
 apply plugin: 'binary-compatibility-validator'
 apply plugin: 'org.jetbrains.dokka'
 apply from: "${rootDir}/scripts/sample-app-versioner.gradle"
@@ -109,27 +109,27 @@ dependencyUpdates {
     }
 }
 
-apiValidation {
-    ignoredPackages += [
-            'com/getstream/sdk/chat/databinding',
-            'io/getstream/chat/android/ui/databinding',
-    ]
-
-    ignoredProjects += [
-            'stream-chat-android-docs',
-            'stream-chat-android-ui-components-sample',
-            'stream-chat-android-test',
-            'stream-chat-android-compose-sample',
-            'libraries',
-            'logging',
-            'stream-logger',
-            'stream-logger-file',
-            'stream-logger-android',
-    ]
-
-    nonPublicMarkers += [
-            'io.getstream.chat.android.core.internal.InternalStreamChatApi',
-    ]
-}
-
-apply from: "${rootDir}/scripts/publish-root.gradle"
+//apiValidation {
+//    ignoredPackages += [
+//            'com/getstream/sdk/chat/databinding',
+//            'io/getstream/chat/android/ui/databinding',
+//    ]
+//
+//    ignoredProjects += [
+//            'stream-chat-android-docs',
+//            'stream-chat-android-ui-components-sample',
+//            'stream-chat-android-test',
+//            'stream-chat-android-compose-sample',
+//            'libraries',
+//            'logging',
+//            'stream-logger',
+//            'stream-logger-file',
+//            'stream-logger-android',
+//    ]
+//
+//    nonPublicMarkers += [
+//            'io.getstream.chat.android.core.internal.InternalStreamChatApi',
+//    ]
+//}
+//
+//apply from: "${rootDir}/scripts/publish-root.gradle"

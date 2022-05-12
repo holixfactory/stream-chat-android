@@ -1,4 +1,3 @@
-import io.getstream.chat.android.Configuration
 import io.getstream.chat.android.Dependencies
 import io.getstream.chat.android.Versions
 
@@ -7,15 +6,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: "de.mannodermaus.android-junit5"
 
-ext {
-    PUBLISH_GROUP_ID = Configuration.artifactGroup
-    PUBLISH_ARTIFACT_ID = 'stream-chat-android-compose'
-    PUBLISH_VERSION = rootVersionName
-}
-
-apply from: "${rootDir}/scripts/publish-module.gradle"
-apply from: "${rootDir}/scripts/android.gradle"
-apply from: "${rootDir}/scripts/detekt-compose.gradle"
+//ext {
+//    PUBLISH_GROUP_ID = Configuration.artifactGroup
+//    PUBLISH_ARTIFACT_ID = 'stream-chat-android-compose'
+//    PUBLISH_VERSION = rootVersionName
+//}
+//
+//apply from: "${rootDir}/scripts/publish-module.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/detekt-compose.gradle"
 
 android {
     defaultConfig {

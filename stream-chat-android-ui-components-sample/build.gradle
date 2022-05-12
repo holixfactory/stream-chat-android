@@ -8,7 +8,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.huawei.agconnect'
 apply plugin: 'shot'
 
-apply from: "${rootDir}/scripts/android.gradle"
+apply from: "${rootDir}/stream-chat-android/scripts/android.gradle"
 
 android {
     defaultConfig {
