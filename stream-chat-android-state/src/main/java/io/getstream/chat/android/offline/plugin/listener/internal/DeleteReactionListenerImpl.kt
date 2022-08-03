@@ -17,7 +17,6 @@
 package io.getstream.chat.android.offline.plugin.listener.internal
 
 import io.getstream.chat.android.client.errors.ChatError
-import io.getstream.chat.android.client.extensions.cidToTypeAndId
 import io.getstream.chat.android.client.extensions.internal.removeMyReaction
 import io.getstream.chat.android.client.extensions.internal.updateSyncStatus
 import io.getstream.chat.android.client.models.Message
@@ -77,7 +76,7 @@ internal class DeleteReactionListenerImpl(
             repos.insertMessage(cachedMessage)
 
             if (cid != null) {
-                doOptimisticMessageUpdate(cid = cid, message = cachedMessage)
+                doOptimisticMessageUpdate(message = cachedMessage)
             }
         }
     }
@@ -88,9 +87,9 @@ internal class DeleteReactionListenerImpl(
      * @param cid The full channel id, i.e. "messaging:123".
      * @param message The [Message] to update.
      */
-    private fun doOptimisticMessageUpdate(cid: String, message: Message) {
-        val (channelType, channelId) = cid.cidToTypeAndId()
-        logic.channel(channelType = channelType, channelId = channelId).upsertMessages(listOf(message))
+    private fun doOptimisticMessageUpdate(message: Message) {
+        logic.channelFromMessage(message)?.upsertMessages(listOf(message))
+        logic.threadFromMessage(message)?.upsertMessages(listOf(message))
     }
 
     /**

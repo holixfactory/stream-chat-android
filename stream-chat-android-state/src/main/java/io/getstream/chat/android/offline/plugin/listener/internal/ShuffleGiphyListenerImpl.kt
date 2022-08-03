@@ -16,7 +16,6 @@
 
 package io.getstream.chat.android.offline.plugin.listener.internal
 
-import io.getstream.chat.android.client.extensions.cidToTypeAndId
 import io.getstream.chat.android.client.models.Message
 import io.getstream.chat.android.client.plugin.listeners.ShuffleGiphyListener
 import io.getstream.chat.android.client.utils.Result
@@ -39,13 +38,11 @@ internal class ShuffleGiphyListenerImpl(private val logic: LogicRegistry) : Shuf
      */
     override suspend fun onShuffleGiphyResult(cid: String, result: Result<Message>) {
         if (result.isSuccess) {
-            val (channelType, channelId) = cid.cidToTypeAndId()
             val processedMessage = result.data().apply {
                 syncStatus = SyncStatus.COMPLETED
             }
-
-            logic.channel(channelType = channelType, channelId = channelId)
-                .updateAndSaveMessages(listOf(processedMessage))
+            logic.channelFromMessage(processedMessage)?.updateAndSaveMessages(listOf(processedMessage))
+            logic.threadFromMessage(processedMessage)?.updateAndSaveMessages(listOf(processedMessage))
         }
     }
 }

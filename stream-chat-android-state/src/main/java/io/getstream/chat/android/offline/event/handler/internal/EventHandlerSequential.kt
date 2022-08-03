@@ -31,6 +31,7 @@ import io.getstream.chat.android.client.events.CidEvent
 import io.getstream.chat.android.client.events.ConnectedEvent
 import io.getstream.chat.android.client.events.GlobalUserBannedEvent
 import io.getstream.chat.android.client.events.GlobalUserUnbannedEvent
+import io.getstream.chat.android.client.events.HasMessage
 import io.getstream.chat.android.client.events.HasOwnUser
 import io.getstream.chat.android.client.events.HealthEvent
 import io.getstream.chat.android.client.events.MarkAllReadEvent
@@ -112,7 +113,7 @@ private const val EVENTS_BUFFER = 100
  * Processes events sequentially. That means a new event will not be processed
  * until the previous event processing is not completed.
  */
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "TooManyFunctions")
 internal class EventHandlerSequential(
     scope: CoroutineScope,
     private val recoveryEnabled: Boolean,
@@ -282,6 +283,7 @@ internal class EventHandlerSequential(
         updateSyncManager(event)
         updateOfflineStorage(event)
         updateChannelsState(event)
+        updateThreadState(event)
         logger.v { "[handleBatchEvent] <<< id: ${event.id}" }
     } catch (e: Throwable) {
         logger.e(e) { "[handleBatchEvent] failed(${event.id}): ${e.message}" }
@@ -413,6 +415,17 @@ internal class EventHandlerSequential(
         logicRegistry.getActiveQueryChannelsLogic().forEach { channelsLogic ->
             channelsLogic.handleEvents(sortedEvents)
         }
+    }
+
+    private fun updateThreadState(batchEvent: BatchEvent) {
+        logger.v { "[updateThreadState] batchEvent.size: ${batchEvent.size}" }
+        val sortedEvents: List<ChatEvent> = batchEvent.sortedEvents
+        sortedEvents.filterIsInstance<HasMessage>()
+            .groupBy { it.message.parentId ?: it.message.id }
+            .filterKeys(logicRegistry::isActiveThread)
+            .forEach { (messageId, events) ->
+                logicRegistry.thread(messageId).handleEvents(events)
+            }
     }
 
     private suspend fun updateOfflineStorage(batchEvent: BatchEvent) {
