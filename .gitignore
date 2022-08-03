@@ -1,5 +1,4 @@
 *.iml
-.composite
 buildSrc/build
 .gradle
 /local.properties
